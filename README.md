@@ -1,4 +1,4 @@
-chatwork-messenger
-==================
+ChatWork Messenger
+====================
 
 ChatWork Desktop Messenger Application.
