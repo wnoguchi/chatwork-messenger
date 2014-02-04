@@ -9,19 +9,36 @@ namespace ChatWorkMessenger
 {
     public partial class Form1 : Form
     {
+        private ChatWorkCredential _chatworkCredential;
+
         public Form1()
         {
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Form Load Event.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            _chatworkCredential = new ChatWorkCredential();
+
+            var serializer2 = new System.Xml.Serialization.XmlSerializer(typeof(ChatWorkCredential));
+            var fs2 = new FileStream("chatwork_credential.xml", FileMode.Open);
+            _chatworkCredential = (ChatWorkCredential)serializer2.Deserialize(fs2);
+            fs2.Close();
+        }
+
         private void sendButton_Click(object sender, EventArgs e)
         {
             // 各種設定値
-            const string apiKey = "9999999999999999999999999999";
+            var apiKey = _chatworkCredential.ApiKey;
             // グループチャットを指定
             const string roomId = "9999999";
 
-            //文字コードを指定する
+            // 文字コードを指定する
             var enc = Encoding.GetEncoding("UTF-8");
 
             // パラメタのエンコード・構築
@@ -58,5 +75,6 @@ namespace ChatWorkMessenger
             MessageBox.Show(responseMessage);
 
         }
+
     }
 }
