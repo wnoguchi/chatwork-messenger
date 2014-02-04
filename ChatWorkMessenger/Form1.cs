@@ -4,6 +4,7 @@ using System.Net;
 using System.Text;
 using System.Web;
 using System.Windows.Forms;
+using System.Xml.Serialization;
 
 namespace ChatWorkMessenger
 {
@@ -25,7 +26,7 @@ namespace ChatWorkMessenger
         {
             _chatworkCredential = new ChatWorkCredential();
 
-            var serializer2 = new System.Xml.Serialization.XmlSerializer(typeof(ChatWorkCredential));
+            var serializer2 = new XmlSerializer(typeof(ChatWorkCredential));
             var fs2 = new FileStream("chatwork_credential.xml", FileMode.Open);
             _chatworkCredential = (ChatWorkCredential)serializer2.Deserialize(fs2);
             fs2.Close();
@@ -43,7 +44,7 @@ namespace ChatWorkMessenger
 
             // パラメタのエンコード・構築
             var postData = "body=" + HttpUtility.UrlEncode(messageTextBox.Text, enc);
-            var postDataBytes = System.Text.Encoding.ASCII.GetBytes(postData);
+            var postDataBytes = Encoding.ASCII.GetBytes(postData);
 
             // WebRequest作成
             var requestUrl = string.Format("https://api.chatwork.com/v1/rooms/{0}/messages", roomId);
