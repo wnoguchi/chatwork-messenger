@@ -30,6 +30,7 @@
         {
             this.sendButton = new System.Windows.Forms.Button();
             this.messageTextBox = new System.Windows.Forms.TextBox();
+            this.button1 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // sendButton
@@ -38,7 +39,7 @@
             this.sendButton.Name = "sendButton";
             this.sendButton.Size = new System.Drawing.Size(75, 23);
             this.sendButton.TabIndex = 0;
-            this.sendButton.Text = "送信";
+            this.sendButton.Text = "Send";
             this.sendButton.UseVisualStyleBackColor = true;
             this.sendButton.Click += new System.EventHandler(this.sendButton_Click);
             // 
@@ -50,11 +51,22 @@
             this.messageTextBox.Size = new System.Drawing.Size(384, 202);
             this.messageTextBox.TabIndex = 1;
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(93, 220);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 2;
+            this.button1.Text = "Debug";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(408, 255);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.messageTextBox);
             this.Controls.Add(this.sendButton);
             this.Name = "Form1";
@@ -69,6 +81,7 @@
 
         private System.Windows.Forms.Button sendButton;
         private System.Windows.Forms.TextBox messageTextBox;
+        private System.Windows.Forms.Button button1;
     }
 }
 
