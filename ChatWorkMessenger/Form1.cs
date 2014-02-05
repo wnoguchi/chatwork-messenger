@@ -1,10 +1,14 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Text;
 using System.Web;
+using System.Web.Script.Serialization;
 using System.Windows.Forms;
 using System.Xml.Serialization;
+using ChatWorkMessenger.ChatWork.Models;
 
 namespace ChatWorkMessenger
 {
@@ -118,7 +122,11 @@ namespace ChatWorkMessenger
 
             sr.Close();
 
-            MessageBox.Show(responseMessage);
+            var serializer = new JavaScriptSerializer();
+            var roomList = (List<Room>)serializer.Deserialize(responseMessage, typeof(List<Room>));
+            var rm = roomList[0];
+
+            MessageBox.Show(rm.Name);
 
         }
 
