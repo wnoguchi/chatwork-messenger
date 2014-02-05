@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace ChatWorkMessenger
+﻿namespace ChatWorkMessenger.ChatWorkApi.Core
 {
     /// <summary>
     /// ChatWork Credential Setting Value DTO.
