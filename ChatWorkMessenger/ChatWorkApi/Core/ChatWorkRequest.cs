@@ -23,6 +23,34 @@ namespace ChatWorkMessenger.ChatWorkApi.Core
             _encoding = Encoding.GetEncoding("UTF-8");
         }
 
+        public string Get(string apiCallPath)
+        {
+            // Create WebRequest
+            var requestUrl = string.Format(GetEndpointUrlBase() + apiCallPath);
+            var req = WebRequest.Create(requestUrl);
+
+            // Specify Method: GET
+            req.Method = "GET";
+            req.ContentType = "application/x-www-form-urlencoded";
+
+            // Set ChatWork API Key
+            req.Headers.Add(string.Format("X-ChatWorkToken: {0}", _credential.ApiKey));
+
+            // Get Reseponse object from server
+            var res = req.GetResponse();
+            // Get Response stream
+            var resStream = res.GetResponseStream();
+            // receive data
+            var sr = new StreamReader(resStream, _encoding);
+
+            var resultJson = sr.ReadToEnd();
+
+            sr.Close();
+
+            return resultJson;
+
+        }
+
         public string Post(string apiCallPath, IDictionary<string, object> parameters)
         {
             var postData = "";
@@ -45,6 +73,7 @@ namespace ChatWorkMessenger.ChatWorkApi.Core
 
             // Specify POST data length.
             req.ContentLength = postDataBytes.Length;
+            // Set ChatWork API Key
             req.Headers.Add(string.Format("X-ChatWorkToken: {0}", _credential.ApiKey));
 
             // Get POST Request Stream
