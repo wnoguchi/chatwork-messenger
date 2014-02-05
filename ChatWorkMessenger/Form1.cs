@@ -17,6 +17,7 @@ namespace ChatWorkMessenger
     public partial class Form1 : Form
     {
         private ChatWorkCredential _chatworkCredential;
+        private ChatWork _chatwork;
 
         public Form1()
         {
@@ -30,30 +31,31 @@ namespace ChatWorkMessenger
         /// <param name="e"></param>
         private void Form1_Load(object sender, EventArgs e)
         {
+            // Load ChatWork Credential
             _chatworkCredential = new ChatWorkCredential();
-
             var serializer2 = new XmlSerializer(typeof(ChatWorkCredential));
             var fs2 = new FileStream("chatwork_credential.xml", FileMode.Open);
             _chatworkCredential = (ChatWorkCredential)serializer2.Deserialize(fs2);
             fs2.Close();
+
+            // Get ChatWork API Wrapper Instance
+            _chatwork = new ChatWork(_chatworkCredential);
+
+            // Get Room List
+            var roomList = _chatwork.GetRoomList();
+
+            roomComboBox.DataSource = roomList;
+            roomComboBox.DisplayMember = "Name";
+            roomComboBox.ValueMember = "room_id";
+
         }
 
         private void sendButton_Click(object sender, EventArgs e)
         {
-            var chatwork = new ChatWork(_chatworkCredential);
-            var responseMessage = chatwork.SendMessage(9999999, messageTextBox.Text);
+            var roomId = (long)roomComboBox.SelectedValue;
+            var responseMessage = _chatwork.SendMessage(roomId, messageTextBox.Text);
 
             MessageBox.Show(responseMessage);
-
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            var chatwork = new ChatWork(_chatworkCredential);
-            var roomList = chatwork.GetRoomList();
-            var rm = roomList[0];
-
-            MessageBox.Show(rm.Name);
 
         }
 

@@ -64,7 +64,7 @@ namespace ChatWorkMessenger.ChatWorkApi.Models
             set { _name = value; }
         }
 
-        public long RoomId
+        public long room_id
         {
             get { return _roomId; }
             set { _roomId = value; }
