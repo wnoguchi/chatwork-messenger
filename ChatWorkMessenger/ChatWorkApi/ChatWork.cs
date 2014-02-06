@@ -43,5 +43,17 @@ namespace ChatWorkMessenger.ChatWorkApi
             return roomList;
         }
 
+        public List<Member> GetMemberList(long roomId)
+        {
+            var requestEndpoint = string.Format("/rooms/{0}/members", roomId);
+
+            var result = _request.Get(requestEndpoint);
+
+            var memberList = (List<Member>)_jsonSerializer.Deserialize(result, typeof(List<Member>));
+
+            return memberList;
+            
+        }
+
     }
 }

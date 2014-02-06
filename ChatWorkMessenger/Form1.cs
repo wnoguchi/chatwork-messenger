@@ -48,15 +48,77 @@ namespace ChatWorkMessenger
             roomComboBox.DisplayMember = "Name";
             roomComboBox.ValueMember = "room_id";
 
+            var roomId = (long)roomComboBox.SelectedValue;
+            var memberList = _chatwork.GetMemberList(roomId);
+
+            memberListBox.DataSource = memberList;
+            memberListBox.DisplayMember = "name";
+            memberListBox.ValueMember = "account_id";
+            memberListBox.SelectedItems.Clear();
+
         }
 
         private void sendButton_Click(object sender, EventArgs e)
         {
             var roomId = (long)roomComboBox.SelectedValue;
-            var responseMessage = _chatwork.SendMessage(roomId, messageTextBox.Text);
+
+            var message = messageTextBox.Text;
+
+            var toString = string.Empty;
+            var selectedMemberList = memberListBox.SelectedItems;
+            foreach (var item in selectedMemberList)
+            {
+                var member = (Member)item;
+                toString += string.Format("[To:{0}] {1} さん\n", member.account_id, member.name);
+            }
+
+            message = toString + message;
+
+            var responseMessage = _chatwork.SendMessage(roomId, message);
 
             MessageBox.Show(responseMessage);
 
+        }
+
+        private void clearMessageButton_Click(object sender, EventArgs e)
+        {
+            messageTextBox.Text = string.Empty;
+        }
+
+        private void selectAllMemberButton_Click(object sender, EventArgs e)
+        {
+            var allMemberCount = memberListBox.Items.Count;
+            for (var i = 0; i < allMemberCount; i++)
+            {
+                memberListBox.SetSelected(i, true);
+            }
+        }
+
+        private void clearSelectionButton_Click(object sender, EventArgs e)
+        {
+            memberListBox.SelectedItems.Clear();
+        }
+
+        private void roomComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var selectedValue = roomComboBox.SelectedValue;
+            if (selectedValue == null || !(selectedValue is long))
+            {
+                return;
+            }
+            var roomId = (long)selectedValue;
+            var memberList = _chatwork.GetMemberList(roomId);
+
+            memberListBox.DataSource = memberList;
+            memberListBox.DisplayMember = "name";
+            memberListBox.ValueMember = "account_id";
+            memberListBox.SelectedItems.Clear();
+
+        }
+
+        private void exitXToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
         }
 
     }
